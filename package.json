@@ -1,6 +1,6 @@
 {
   "name": "mysql-migration-promise",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "migration util for mysql database",
   "main": "index.js",
   "scripts": {
