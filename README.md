@@ -13,27 +13,30 @@ It gives you the option to run your migrations automatically when starting your 
 <h3>Setup</h3>
 
 ```javascript
-//my_db_migrations.js
-let index = require('./index');
-let mysql = require('mysql2');
+//server.js
+const mysql = require('mysql2');
+const mysqlMigration = require('mysql-migration-promise');
 
-async function start() {
+async function init() {
   try {
-    let migrationService = await index.init(mysql.createConnection({
+    let connection = mysql.createConnection({
       host     : 'localhost',
       user     : 'root',
       password : 'root',
-      database : 'migration_test',
+      database : 'compendium',
       multipleStatements: true
-    }), __dirname + '/migrations');
+    });
 
+    let migrationService = await mysqlMigration.init(connection, __dirname + '/migrations');
     await migrationService.migrate();
   } catch (error) {
-    console.error(error);
+    console.error('Unable to start database: ', error);
   }
+
+  app.listen(port);
 }
 
-start();
+init();
 ```
 
 `/migrations` - is a folder where all migrations scripts are located. There is no default value for it so you should specify it
