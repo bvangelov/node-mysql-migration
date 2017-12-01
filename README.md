@@ -1,26 +1,39 @@
-# node-mysql-migration
+# mysql-migration-promise
 
-This plugin is create to simplify migration of mysql database migration.
+This plugin was initially thought to be fork of https://github.com/borsch/node-mysql-migration, but ended up with quite a few changes.
+
+It gives you the option to run your migrations automatically when starting your application 
 
 <h2>Using</h2>
 
 <h3>Installing</h3>
 
-`npm install node-mysql-migration` - to install util
+`npm install mysql-migration-promise` - to install util
 
 <h3>Setup</h3>
 
 ```javascript
-# my_db_migrations.js
-var mysql = require('mysql');
-var migration = require('node-mysql-migration');
+//my_db_migrations.js
+let index = require('./index');
+let mysql = require('mysql2');
 
-migration.migrate(mysql.createConnection({
-    host     : 'host',
-    user     : 'user',
-    password : 'password',
-    database : 'database'
-}), __dirname + '/migrations');
+async function start() {
+  try {
+    let migrationService = await index.init(mysql.createConnection({
+      host     : 'localhost',
+      user     : 'root',
+      password : 'root',
+      database : 'migration_test',
+      multipleStatements: true
+    }), __dirname + '/migrations');
+
+    await migrationService.migrate();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+start();
 ```
 
 `/migrations` - is a folder where all migrations scripts are located. There is no default value for it so you should specify it
@@ -40,10 +53,10 @@ V1__init_tables.sql
 V2__add_new_column.sql
 ```
 
+<br />inside migrations file you should write migrations script in plain SQL
 <br />
-inside migrations file you should wtire migrations script in plain SQL
 
-<h2><b>WARNING</b></h2>
+<b>WARNING</b>
 
 for now migration support only one command in migration script.
 <br />
@@ -61,9 +74,9 @@ UPDATE `tbl_name` SET `column_name`="asd";
 then migration will fails.
 <br />
 to solve this <b>split such migration into three separate migration</b> 
-<br />
+<br /><br />
 <b>OR</b>
-<br />
+<br /><br />
 customize your connection settings. use: 
 
 ```javascript
@@ -77,12 +90,3 @@ migration.migrate(mysql.createConnection({
 ````
 
 official [`node-mysql` doc](https://github.com/mysqljs/mysql#multiple-statement-queries)
-
-
-<h2>Commands</h2>
-
-run `npm my_db_migrations.js clean` to clean the data base
-<br />
-run `npm my_db_migrations.js init` to init empty migration scheta table
-<br />
-run `npm my_db_migrations.js migrate` to apply new migrations to your data base if such exists

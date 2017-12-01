@@ -1,5 +1,5 @@
 {
-  "name": "node-mysql-migration",
+  "name": "mysql-migration-promise",
   "version": "0.2.1",
   "description": "migration util for mysql database",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/borsch/node-mysql-migration.git"
+    "url": "git+https://github.com/bvangelov/node-mysql-migration.git"
   },
   "keywords": [
     "nodejs",
@@ -16,14 +16,14 @@
     "mysql-migration",
     "migration"
   ],
-  "author": "Oleh Kurpiak",
+  "author": "Boris Vangelov",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/borsch/node-mysql-migration/issues"
+    "url": "https://github.com/bvangelov/node-mysql-migration/issues"
   },
-  "homepage": "https://github.com/borsch/node-mysql-migration#readme",
+  "homepage": "https://github.com/bvangelov/node-mysql-migration#readme",
   "dependencies": {
     "md5-file": "^3.1.1",
-    "mysql": "^2.13.0"
+    "mysql2": "^1.5.1"
   }
 }
